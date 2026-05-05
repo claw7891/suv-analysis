@@ -21,7 +21,6 @@
         .chart-row { display: flex; gap: 1.5rem; }
         .chart-row .chart-container { flex: 1; height: 300px; }
         @media (max-width: 700px) { .chart-row { flex-direction: column; } .chart-row .chart-container { height: 280px; } }
-        .tag { display: inline-block; background: #ecf0f1; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; color: #555; }
         .callout { background: #fff9e6; border-left: 4px solid #f39c12; padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
         .callout.green { background: #eafaf1; border-left-color: #27ae60; }
         .callout.blue { background: #ebf5fb; border-left-color: #2980b9; }
@@ -30,6 +29,9 @@
         .stat-box { background: #f8f9fa; padding: 1rem; border-radius: 6px; text-align: center; }
         .stat-box .num { font-size: 1.5rem; font-weight: 700; color: #2c3e50; }
         .stat-box .label { font-size: 0.85rem; color: #7f8c8d; }
+        .sens-e9 { background: #fdedec; }
+        .sens-hh { background: #eafaf1; }
+        .sens-tie { background: #fef9e7; }
         footer { text-align: center; padding: 1rem; color: #7f8c8d; font-size: 0.9rem; }
         @media (max-width: 600px) {
             .container { padding: 0 0.5rem; }
@@ -111,7 +113,7 @@
                         <td>$3,100</td>
                     </tr>
                     <tr>
-                        <td>Depreciation (value lost over 5 yr)</td>
+                        <td>Depreciation (value lost over 5 yr)</td>
                         <td>$5,000</td>
                         <td>$4,000</td>
                     </tr>
@@ -189,7 +191,7 @@
             </div>
 
             <div class="callout green">
-                <strong>Breakeven result:</strong> At $0.15/kWh electricity and $4.00/gal gasoline, the EV9's operating cost advantage ($630/yr in fuel + $220/yr in maintenance = $850/yr) recoups the $3,400 premium in <strong>~4 years</strong>. If gas prices rise to $5/gal, the gap widens to ~$1,260/yr, pulling breakeven forward to <strong>~2.7 years</strong>.
+                <strong>Breakeven result:</strong> At $0.15/kWh electricity and $4.00/gal gasoline, the EV9's operating cost advantage ($630/yr in fuel + $220/yr in maintenance = $850/yr) recoups the $3,400 premium in about <strong>4 years</strong>. If gas prices rise to $5/gal, the gap widens to ~$1,260/yr, pulling breakeven forward to roughly <strong>2.7 years</strong>.
             </div>
 
             <h3>Sensitivity to Gas & Electricity Prices</h3>
@@ -197,8 +199,8 @@
                 <canvas id="sensitivityChart"></canvas>
             </div>
 
-            <p>The table below shows how the 5‑year cost advantage (EV9 − HH) changes with different fuel/energy prices:</p>
-            <table>
+            <p>The table below shows how the 5‑year total cost difference (EV9 minus HH) changes with different fuel/energy prices, accounting for the actual purchase price difference ($28.5k vs $25.1k):</p>
+            <table id="sensitivity-table">
                 <thead>
                     <tr>
                         <th>Electricity ($/kWh)</th>
@@ -208,45 +210,14 @@
                         <th>Gas $6.00/gal</th>
                     </tr>
                 </thead>
-                <tbody>
-                    <tr>
-                        <td>$0.10/kWh</td>
-                        <td>+$160</td>
-                        <td>−$2,810</td>
-                        <td>−$5,780</td>
-                        <td>−$8,750</td>
-                    </tr>
-                    <tr>
-                        <td>$0.15/kWh</td>
-                        <td>+$960</td>
-                        <td>−$2,010</td>
-                        <td>−$4,980</td>
-                        <td>−$7,950</td>
-                    </tr>
-                    <tr>
-                        <td>$0.20/kWh</td>
-                        <td>+$1,760</td>
-                        <td>−$1,210</td>
-                        <td>−$4,180</td>
-                        <td>−$7,150</td>
-                    </tr>
-                    <tr>
-                        <td>$0.25/kWh</td>
-                        <td>+$2,560</td>
-                        <td>−$410</td>
-                        <td>−$3,380</td>
-                        <td>−$6,350</td>
-                    </tr>
-                    <tr>
-                        <td>$0.30/kWh</td>
-                        <td>+$3,360</td>
-                        <td>+$390</td>
-                        <td>−$2,580</td>
-                        <td>−$5,550</td>
-                    </tr>
+                <tbody id="sensTableBody">
+                    <!-- filled by JS -->
                 </tbody>
             </table>
-            <p style="font-size:0.9rem; color:#7f8c8d;">Positive = HH is cheaper; Negative = EV9 is cheaper. CA residential rates average ~$0.30/kWh (Tier 2), but many SoCal EV owners use time-of-use plans offering $0.10–$0.15/kWh for overnight charging.</p>
+            <p style="font-size:0.85rem; color:#7f8c8d;">
+                Positive = HH is cheaper overall; Negative = EV9 is cheaper. Values include the $3,400 purchase price premium for the EV9.
+                CA residential rates average ~$0.30/kWh (Tier 2), but many SoCal EV owners use time-of-use plans offering $0.10–$0.15/kWh for overnight charging.
+            </p>
         </div>
 
         <!-- ============= BEST TIME TO BUY ============= -->
@@ -285,12 +256,12 @@
 
     </div>
     <footer>
-        <p>Analysis performed May 2026 • Data sources: Kelley Blue Book, Edmunds, CarEdge, iSeeCars, CarGurus, Autotrader, CARFAX, MotorTrend, Recharged. Estimates are illustrative; actual costs depend on driving habits, maintenance history, local pricing, and market conditions.</p>
+        <p>Analysis performed May 2026 &bull; Data sources: Kelley Blue Book, Edmunds, CarEdge, iSeeCars, CarGurus, Autotrader, CARFAX, MotorTrend, Recharged. Estimates are illustrative; actual costs depend on driving habits, maintenance history, local pricing, and market conditions.</p>
     </footer>
 
     <script>
-        // ===== HELPER: Format currency =====
-        const $ = v => '$' + v.toLocaleString('en-US', {minimumFractionDigits:0});
+        // ===== UTILITY =====
+        const fmt$ = v => '$' + Math.round(v).toLocaleString('en-US');
 
         // ===== CHART 1: 5-Year TCO Bar =====
         new Chart(document.getElementById('tcoChart'), {
@@ -309,223 +280,203 @@
                 responsive: true, maintainAspectRatio: false,
                 plugins: {
                     title: { display: true, text: 'Estimated 5‑Year Total Cost of Ownership from Purchase' },
-                    tooltip: { callbacks: { label: ctx => $(ctx.parsed.y) } }
+                    tooltip: { callbacks: { label: ctx => fmt$(ctx.parsed.y) } }
                 },
                 scales: {
-                    y: { beginAtZero: true, ticks: { callback: v => $(v) }, title: { display: true, text: 'Cost (USD)' } }
+                    y: { beginAtZero: true, ticks: { callback: v => fmt$(v) }, title: { display: true, text: 'Cost (USD)' } }
                 }
             }
         });
 
-        // ===== CHART 2: Cost per Year vs Holding Period =====
-        const holdingYears = [1,2,3,4,5,6,7,8,9,10];
-        const purchasePrice = 25000;
+        // ===== CHART 2 & TABLE: Cost per Year vs Holding Period =====
+        (function() {
+            const years = [1,2,3,4,5,6,7,8,9,10];
+            const purchase = 25000;
 
-        // --- Annual operating costs (fuel + maintenance + insurance/taxes) ---
-        const ev9AnnualOp = 1540;
-        const hhAnnualOp = 2170;
+            // Annual operating (fuel + maintenance + insurance)
+            const opEv9 = 1540;
+            const opHh = 2170;
 
-        // --- Residual value after t years (from $25k used purchase) ---
-        // EV9: diminishing depreciation curve
-        const ev9DepTotal = [1500, 2500, 3500, 4300, 5000, 5600, 6100, 6500, 6800, 7000];
-        // Highlander: flatter depreciation curve
-        const hhDepTotal = [1200, 2000, 2700, 3400, 4000, 4500, 4900, 5200, 5400, 5500];
+            // Cumulative depreciation from $25k purchase
+            const depEv9 = [1500, 2500, 3500, 4300, 5000, 5600, 6100, 6500, 6800, 7000];
+            const depHh  = [1200, 2000, 2700, 3400, 4000, 4500, 4900, 5200, 5400, 5500];
 
-        function costPerYear(depTotal, opAnnual, t) {
-            const total = depTotal[t-1] + opAnnual * t;
-            return total / t;
-        }
+            const costEv9 = years.map(t => (depEv9[t-1] + opEv9 * t) / t);
+            const costHh  = years.map(t => (depHh[t-1]  + opHh  * t) / t);
 
-        const ev9CostPerYear = holdingYears.map(t => costPerYear(ev9DepTotal, ev9AnnualOp, t));
-        const hhCostPerYear = holdingYears.map(t => costPerYear(hhDepTotal, hhAnnualOp, t));
-
-        new Chart(document.getElementById('costPerYearChart'), {
-            type: 'line',
-            data: {
-                labels: holdingYears.map(t => t + ' yr'),
-                datasets: [{
-                    label: 'Kia EV9',
-                    data: ev9CostPerYear,
-                    borderColor: 'rgba(231,76,60,1)',
-                    backgroundColor: 'rgba(231,76,60,0.1)',
-                    fill: true,
-                    tension: 0.3,
-                    pointRadius: 5,
-                    pointHoverRadius: 7
-                }, {
-                    label: 'Toyota Highlander Hybrid',
-                    data: hhCostPerYear,
-                    borderColor: 'rgba(39,174,96,1)',
-                    backgroundColor: 'rgba(39,174,96,0.1)',
-                    fill: true,
-                    tension: 0.3,
-                    pointRadius: 5,
-                    pointHoverRadius: 7
-                }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: {
-                    title: { display: true, text: 'Average Cost per Year by Holding Period (from $25k Purchase)' },
-                    tooltip: {
-                        callbacks: {
-                            label: ctx => ctx.dataset.label + ': ' + $(ctx.parsed.y) + '/yr'
-                        }
-                    }
+            new Chart(document.getElementById('costPerYearChart'), {
+                type: 'line',
+                data: {
+                    labels: years.map(t => t + ' yr'),
+                    datasets: [{
+                        label: 'Kia EV9',
+                        data: costEv9,
+                        borderColor: 'rgba(231,76,60,1)',
+                        backgroundColor: 'rgba(231,76,60,0.1)',
+                        fill: true, tension: 0.3, pointRadius: 5, pointHoverRadius: 7
+                    }, {
+                        label: 'Toyota Highlander Hybrid',
+                        data: costHh,
+                        borderColor: 'rgba(39,174,96,1)',
+                        backgroundColor: 'rgba(39,174,96,0.1)',
+                        fill: true, tension: 0.3, pointRadius: 5, pointHoverRadius: 7
+                    }]
                 },
-                scales: {
-                    x: { title: { display: true, text: 'Holding Period (years)' } },
-                    y: {
-                        beginAtZero: false,
-                        ticks: { callback: v => $(v) },
-                        title: { display: true, text: 'Cost per Year (USD)' }
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: 'Average Cost per Year by Holding Period (from $25k Purchase)' },
+                        tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + fmt$(ctx.parsed.y) + '/yr' } }
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Holding Period (years)' } },
+                        y: { beginAtZero: false, ticks: { callback: v => fmt$(v) }, title: { display: true, text: 'Cost per Year (USD)' } }
                     }
                 }
-            }
-        });
-
-        // ===== Fill table =====
-        const tbody = document.getElementById('costPerYearTable');
-        holdingYears.forEach((t, i) => {
-            const adv = hhCostPerYear[i] - ev9CostPerYear[i];
-            const row = document.createElement('tr');
-            row.innerHTML = `
-                <td><strong>${t} year${t > 1 ? 's' : ''}</strong></td>
-                <td>$${Math.round(ev9CostPerYear[i]).toLocaleString()}/yr</td>
-                <td>$${Math.round(hhCostPerYear[i]).toLocaleString()}/yr</td>
-                <td style="color:${adv > 0 ? '#27ae60' : '#e74c3c'}; font-weight:600;">$${Math.abs(adv).toLocaleString()}/yr ${adv > 0 ? 'cheaper' : 'more'}</td>
-            `;
-            tbody.appendChild(row);
-        });
-
-        // ===== CHART 3: Breakeven — EV9 at $28.5k vs HH at $25.1k =====
-        const ev9ActualPrice = 28500;
-        const hhActualPrice = 25100;
-        const pricePremium = ev9ActualPrice - hhActualPrice; // $3,400
-
-        // Operating cost per year advantage
-        const opAdvantage = hhAnnualOp - ev9AnnualOp; // $630
-
-        // Cumulative advantage over time: cumulativeOpSavings[t] = (HH cost - EV9 cost)
-        // Total cost difference = (EV9 price - HH price) + cumulativeOpSavings
-        // Negative = EV9 cheaper overall
-        const cumOpSavings = [];
-        const totalDiff = [];
-        for (let t = 1; t <= 10; t++) {
-            const ev9Dep = ev9DepTotal[t-1];
-            const hhDep = hhDepTotal[t-1];
-            // Total cost = purchase price + operating*t - residual (but we already have depreciation)
-            // Total cost = purchase price + operating*t - (purchase price - depreciation)
-            // = depreciation + operating*t
-            // So total cost for each...
-            // For breakeven, we want: TotalCost(t, EV9) - TotalCost(t, HH)
-            // = (ev9price - hhprice) + (ev9dep - hhdep) + (ev9Op - hhOp)*t
-            // Wait, let's be more precise:
-            // Tc_ev9 = ev9ActualPrice - ev9Residual(t) + ev9AnnualOp * t
-            //        = ev9DepTotal[t-1] + ev9AnnualOp*t + (ev9ActualPrice - 25000)
-            // Similarly for HH
-            // The difference = (ev9Dep - hhDep) + (ev9AnnualOp - hhAnnualOp)*t + (28500 - 25100)
-            const diff = (ev9DepTotal[t-1] - hhDepTotal[t-1]) + (ev9AnnualOp - hhAnnualOp) * t + pricePremium;
-            totalDiff.push(diff);
-            cumOpSavings.push(opAdvantage * t);
-        }
-
-        new Chart(document.getElementById('breakevenChart'), {
-            type: 'line',
-            data: {
-                labels: holdingYears.map(t => t + ' yr'),
-                datasets: [{
-                    label: 'EV9 Total Cost − HH Total Cost',
-                    data: totalDiff,
-                    borderColor: 'rgba(52,152,219,1)',
-                    backgroundColor: 'rgba(52,152,219,0.1)',
-                    fill: true,
-                    tension: 0.3,
-                    pointRadius: 5
-                }, {
-                    label: 'Zero Line (breakeven)',
-                    data: holdingYears.map(() => 0),
-                    borderColor: 'rgba(0,0,0,0.3)',
-                    borderDash: [5,5],
-                    pointRadius: 0,
-                    borderWidth: 2
-                }]
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: {
-                    title: { display: true, text: 'Breakeven: EV9 at $28.5k vs Highlander Hybrid at $25.1k' },
-                    tooltip: {
-                        callbacks: {
-                            label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y >= 0 ? '+' : '') + $(ctx.parsed.y)
-                        }
-                    }
-                },
-                scales: {
-                    x: { title: { display: true, text: 'Years Owned' } },
-                    y: {
-                        ticks: { callback: v => (v >= 0 ? '+' : '') + $(v) },
-                        title: { display: true, text: 'Cost Difference (EV9 − HH)' }
-                    }
-                }
-            }
-        });
-
-        // ===== CHART 4: Sensitivity — 5-year EV9 advantage by gas/electricity prices =====
-        const electricityPrices = [0.10, 0.15, 0.20, 0.25, 0.30];
-        const gasPrices = [3.0, 4.0, 5.0, 6.0];
-
-        // Recompute annual fuel costs for different prices
-        // EV9: 10,000 mi/yr ÷ 3.0 mi/kWh × electricity price
-        // HH: 10,000 mi/yr ÷ 28 mpg × gas price
-        function ev9AnnualFuel(elecPrice) { return (10000 / 3.0) * elecPrice; }
-        function hhAnnualFuel(gasPrice) { return (10000 / 28) * gasPrice; }
-
-        // Maintenance: EV9 $400/yr, HH $620/yr
-        // Insurance: $900/yr each
-        // So operating = fuel + maintenance + insurance
-        function ev9AnnualOp(elec) { return ev9AnnualFuel(elec) + 400 + 900; }
-        function hhAnnualOp(gas) { return hhAnnualFuel(gas) + 620 + 900; }
-
-        // 5-year cost = depreciation + operating * 5 (depreciation fixed at $5k ev9, $4k hh)
-        const ev9Dep5 = 5000;
-        const hhDep5 = 4000;
-
-        const sensDatasets = gasPrices.map((gas, gi) => {
-            const data = electricityPrices.map(elec => {
-                const ev9Total5 = ev9Dep5 + ev9AnnualOp(elec) * 5 + 25000;
-                const hhTotal5 = hhDep5 + hhAnnualOp(gas) * 5 + 25000;
-                return hhTotal5 - ev9Total5; // positive = EV9 cheaper (HH costs more)
             });
-            return {
-                label: '$' + gas.toFixed(1) + '/gal gas',
-                data: data,
-                borderColor: ['rgba(231,76,60,0.6)', 'rgba(231,76,60,1)', 'rgba(39,174,96,1)', 'rgba(39,174,96,0.6)'][gi],
-                backgroundColor: ['rgba(231,76,60,0.05)', 'rgba(231,76,60,0.1)', 'rgba(39,174,96,0.1)', 'rgba(39,174,96,0.05)'][gi],
-                fill: false,
-                tension: 0.3,
-                pointRadius: 5
-            };
-        });
 
-        new Chart(document.getElementById('sensitivityChart'), {
-            type: 'line',
-            data: {
-                labels: electricityPrices.map(p => '$' + p.toFixed(2) + '/kWh'),
-                datasets: sensDatasets
-            },
-            options: {
-                responsive: true, maintainAspectRatio: false,
-                plugins: {
-                    title: { display: true, text: '5‑Year EV9 Advantage by Energy Prices (positive = EV9 cheaper)' },
-                    tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ($(Math.abs(ctx.parsed.y))) + (ctx.parsed.y >= 0 ? ' → EV9 saves' : ' → HH saves') } }
+            // Fill table
+            const tbody = document.getElementById('costPerYearTable');
+            years.forEach((t, i) => {
+                const adv = costHh[i] - costEv9[i];
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td><strong>${t} year${t > 1 ? 's' : ''}</strong></td>
+                    <td>${fmt$(costEv9[i])}/yr</td>
+                    <td>${fmt$(costHh[i])}/yr</td>
+                    <td style="color:${adv > 0 ? '#27ae60' : '#e74c3c'}; font-weight:600;">${fmt$(Math.abs(adv))}/yr ${adv > 0 ? 'cheaper (EV9)' : 'more (EV9)'}</td>
+                `;
+            });
+        })();
+
+        // ===== CHART 3: Breakeven =====
+        (function() {
+            const years = [1,2,3,4,5,6,7,8,9,10];
+            const ev9Price = 28500, hhPrice = 25100, premium = ev9Price - hhPrice;
+            const opEv9 = 1540, opHh = 2170;
+            const depEv9 = [1500, 2500, 3500, 4300, 5000, 5600, 6100, 6500, 6800, 7000];
+            const depHh  = [1200, 2000, 2700, 3400, 4000, 4500, 4900, 5200, 5400, 5500];
+
+            // Total cost = purchase price + operating*t - residual
+            // but residual = purchase - depreciation, so total = depreciation + operating*t
+            // However we use actual purchase prices, so:
+            // total = (actualPrice - purchase) + depreciation + operating*t
+            // where (actualPrice - purchase) = premium for EV9, negative for HH
+            // Actually: total = depreciation + operating*t + (actualPrice - 25000)
+            // Difference = (depEv9-depHh) + (opEv9-opHh)*t + (ev9Price-hhPrice)
+            const diff = years.map(t => {
+                return (depEv9[t-1] - depHh[t-1]) + (opEv9 - opHh) * t + premium;
+            });
+
+            new Chart(document.getElementById('breakevenChart'), {
+                type: 'line',
+                data: {
+                    labels: years.map(t => t + ' yr'),
+                    datasets: [{
+                        label: 'EV9 Total Cost − HH Total Cost',
+                        data: diff,
+                        borderColor: 'rgba(52,152,219,1)',
+                        backgroundColor: 'rgba(52,152,219,0.1)',
+                        fill: true, tension: 0.3, pointRadius: 5
+                    }, {
+                        label: 'Breakeven (zero)',
+                        data: years.map(() => 0),
+                        borderColor: 'rgba(0,0,0,0.3)',
+                        borderDash: [5,5], pointRadius: 0, borderWidth: 2
+                    }]
                 },
-                scales: {
-                    x: { title: { display: true, text: 'Electricity Price' } },
-                    y: { ticks: { callback: v => $(v) }, title: { display: true, text: '5‑Year Cost Difference' } }
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: 'Breakeven: EV9 at $28.5k vs Highlander Hybrid at $25.1k' },
+                        tooltip: { callbacks: { label: ctx => {
+                            if (ctx.dataset.label === 'Breakeven (zero)') return 'Breakeven';
+                            const v = ctx.parsed.y;
+                            return 'Cost difference: ' + (v >= 0 ? '+' : '') + fmt$(v);
+                        }}}
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Years Owned' } },
+                        y: { ticks: { callback: v => (v >= 0 ? '+' : '') + fmt$(v) }, title: { display: true, text: 'Cost Difference (EV9 − HH)' } }
+                    }
                 }
+            });
+        })();
+
+        // ===== CHART 4 & TABLE: Sensitivity =====
+        (function() {
+            const elecPrices = [0.10, 0.15, 0.20, 0.25, 0.30];
+            const gasPrices  = [3.0, 4.0, 5.0, 6.0];
+            const ev9Price = 28500, hhPrice = 25100;
+
+            function fuelEv9(e) { return (10000 / 3.0) * e; }
+            function fuelHh(g)  { return (10000 / 28) * g; }
+            function opEv9(e)  { return fuelEv9(e) + 400 + 900; }
+            function opHh(g)   { return fuelHh(g) + 620 + 900; }
+            const depEv95 = 5000, depHh5 = 4000;
+
+            // Compute 5-year total cost difference for each combo
+            function diff5(elec, gas) {
+                const ev9Total = ev9Price + depEv95 + opEv9(elec) * 5;
+                const hhTotal  = hhPrice + depHh5  + opHh(gas)  * 5;
+                return hhTotal - ev9Total; // positive = EV9 cheaper
             }
-        });
+
+            // Build chart datasets
+            const colors = [
+                { bd: 'rgba(231,76,60,1)', bg: 'rgba(231,76,60,0.1)' },
+                { bd: 'rgba(230,126,34,1)', bg: 'rgba(230,126,34,0.1)' },
+                { bd: 'rgba(39,174,96,1)', bg: 'rgba(39,174,96,0.1)' },
+                { bd: 'rgba(41,128,185,1)', bg: 'rgba(41,128,185,0.1)' }
+            ];
+
+            const datasets = gasPrices.map((gas, gi) => ({
+                label: '$' + gas.toFixed(1) + '/gal gas',
+                data: elecPrices.map(elec => diff5(elec, gas)),
+                borderColor: colors[gi].bd,
+                backgroundColor: colors[gi].bg,
+                fill: false, tension: 0.3, pointRadius: 5
+            }));
+
+            new Chart(document.getElementById('sensitivityChart'), {
+                type: 'line',
+                data: {
+                    labels: elecPrices.map(p => '$' + p.toFixed(2) + '/kWh'),
+                    datasets: datasets
+                },
+                options: {
+                    responsive: true, maintainAspectRatio: false,
+                    plugins: {
+                        title: { display: true, text: '5‑Year Cost Advantage: EV9 ($28.5k) vs Highlander Hybrid ($25.1k)' },
+                        tooltip: { callbacks: { label: ctx => {
+                            const v = ctx.parsed.y;
+                            return ctx.dataset.label + ': ' + (v >= 0 ? 'EV9 saves ' : 'HH saves ') + fmt$(Math.abs(v));
+                        }}}
+                    },
+                    scales: {
+                        x: { title: { display: true, text: 'Electricity Price' } },
+                        y: { ticks: { callback: v => fmt$(v) }, title: { display: true, text: '5‑Year Cost Difference' } }
+                    }
+                }
+            });
+
+            // Fill sensitivity table
+            const tbody = document.getElementById('sensTableBody');
+            elecPrices.forEach(elec => {
+                const row = tbody.insertRow();
+                let html = '<td><strong>$' + elec.toFixed(2) + '/kWh</strong></td>';
+                gasPrices.forEach(gas => {
+                    const d = diff5(elec, gas);
+                    let cls = '';
+                    if (d < -500) cls = ' class="sens-hh"';
+                    else if (d > 500) cls = ' class="sens-e9"';
+                    else cls = ' class="sens-tie"';
+                    const prefix = d >= 0 ? '' : '';
+                    html += '<td' + cls + '>' + prefix + fmt$(d) + '</td>';
+                });
+                row.innerHTML = html;
+            });
+        })();
     </script>
 </body>
 </html>
