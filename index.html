@@ -260,6 +260,9 @@
     </footer>
 
     <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        console.log('SUV analysis loaded, rendering charts...');
+
         // ===== UTILITY =====
         const fmt$ = v => '$' + Math.round(v).toLocaleString('en-US');
 
@@ -477,6 +480,7 @@
                 row.innerHTML = html;
             });
         })();
+        }); // end DOMContentLoaded
     </script>
 </body>
 </html>
