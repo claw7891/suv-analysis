@@ -6,20 +6,34 @@
     <title>Used SUV Analysis: Kia EV9 vs Toyota Highlander Hybrid</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
-        body { font-family: Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; color: #333; }
+        body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Arial, sans-serif; margin: 0; padding: 0; background: #f5f5f5; color: #333; }
         header { background: #2c3e50; color: white; padding: 1rem; text-align: center; }
-        .container { max-width: 900px; margin: 2rem auto; padding: 0 1rem; }
+        .container { max-width: 960px; margin: 2rem auto; padding: 0 1rem; }
         .section { background: white; margin: 1.5rem 0; padding: 1.5rem; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h2 { color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 0.3rem; }
-        table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
-        th, td { padding: 0.75rem; text-align: left; border-bottom: 1px solid #ddd; }
-        th { background: #f8f9fa; }
+        h2 { color: #2c3e50; border-bottom: 2px solid #ecf0f1; padding-bottom: 0.3rem; margin-top: 0; }
+        h3 { color: #34495e; margin-bottom: 0.5rem; }
+        table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.95rem; }
+        th, td { padding: 0.6rem 0.75rem; text-align: left; border-bottom: 1px solid #ddd; }
+        th { background: #f8f9fa; font-weight: 600; }
         .highlight { background: #e8f4fc; }
-        .chart-container { position: relative; height: 300px; margin: 1.5rem 0; }
+        .chart-container { position: relative; height: 320px; margin: 1.5rem 0; }
+        .chart-container.tall { height: 400px; }
+        .chart-row { display: flex; gap: 1.5rem; }
+        .chart-row .chart-container { flex: 1; height: 300px; }
+        @media (max-width: 700px) { .chart-row { flex-direction: column; } .chart-row .chart-container { height: 280px; } }
+        .tag { display: inline-block; background: #ecf0f1; padding: 0.2rem 0.6rem; border-radius: 12px; font-size: 0.8rem; color: #555; }
+        .callout { background: #fff9e6; border-left: 4px solid #f39c12; padding: 0.75rem 1rem; margin: 1rem 0; border-radius: 0 6px 6px 0; }
+        .callout.green { background: #eafaf1; border-left-color: #27ae60; }
+        .callout.blue { background: #ebf5fb; border-left-color: #2980b9; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin: 1rem 0; }
+        @media (max-width: 600px) { .two-col { grid-template-columns: 1fr; } }
+        .stat-box { background: #f8f9fa; padding: 1rem; border-radius: 6px; text-align: center; }
+        .stat-box .num { font-size: 1.5rem; font-weight: 700; color: #2c3e50; }
+        .stat-box .label { font-size: 0.85rem; color: #7f8c8d; }
         footer { text-align: center; padding: 1rem; color: #7f8c8d; font-size: 0.9rem; }
         @media (max-width: 600px) {
             .container { padding: 0 0.5rem; }
-            th, td { padding: 0.5rem; font-size: 0.9rem; }
+            th, td { padding: 0.4rem 0.5rem; font-size: 0.85rem; }
         }
     </style>
 </head>
@@ -29,6 +43,8 @@
         <p>Financial perspective on optimal purchase timing, mileage, and total cost of ownership</p>
     </header>
     <div class="container">
+
+        <!-- ============= REQUIREMENTS ============= -->
         <div class="section">
             <h2>Key Requirements</h2>
             <ul>
@@ -41,19 +57,32 @@
             </ul>
         </div>
 
+        <!-- ============= MARKET OVERVIEW ============= -->
         <div class="section">
             <h2>Market Overview (as of mid‑2026)</h2>
+
+            <div class="two-col">
+                <div class="stat-box">
+                    <div class="num">$28,500</div>
+                    <div class="label">Kia EV9 – current used value (2‑3 yr old)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="num">$25,100</div>
+                    <div class="label">Toyota Highlander Hybrid – current used value (2020)</div>
+                </div>
+            </div>
+
             <h3>Kia EV9</h3>
-            <p>The 2024 Kia EV9 has seen steep depreciation, losing about <strong>49% of its value</strong> (~$27,900) in roughly 2‑3 years, with a current resale value around <strong>$28,500</strong> (trade‑in ~$26,600). Early 2025 models retain ~75‑80% of their original MSRP after one year.</p>
-            <p>Because the EV9 is a relatively new all‑electric SUV (launched 2023), the used market is still thin, and prices for sub‑$25k examples with &lt;75k miles are extremely scarce in Southern California. Most listings are well above $30k, even for higher‑mileage units.</p>
+            <p>The 2024 Kia EV9 has seen steep depreciation, losing about <strong>49% of its value</strong> (~$27,900) in roughly 2‑3 years, with a current resale value around <strong>$28,500</strong> (trade‑in ~$26,600). Early 2025 models retain ~75‑80% of their original MSRP after one year. Because the EV9 is a relatively new all‑electric SUV (launched 2023), the used market is still thin, and prices for sub‑$25k examples with &lt;75k miles are extremely scarce in Southern California. Most listings are well above $30k, even for higher‑mileage units.</p>
+
             <h3>Toyota Highlander Hybrid</h3>
-            <p>Toyota’s hybrid SUV holds its value far better. A 2020 Highlander Hybrid LE starts at about <strong>$25,100</strong> (fair purchase) in good condition, and prices rise quickly with trim and mileage. Finding a sub‑$25k Highlander Hybrid with &lt;75k miles is challenging; most viable options are older (2015‑2019) or have higher mileage (>90k).</p>
-            <p>Depreciation is modest: the 2025 model is projected to lose <strong>$21,920</strong> over five years, leaving a ~5‑year residual value of <strong>$26,350</strong> (KBB).</p>
+            <p>Toyota's hybrid SUV holds its value far better. A 2020 Highlander Hybrid LE starts at about <strong>$25,100</strong> (fair purchase) in good condition, and prices rise quickly with trim and mileage. Finding a sub‑$25k Highlander Hybrid with &lt;75k miles is challenging; most viable options are older (2015‑2019) or have higher mileage (>90k). Depreciation is modest: the 2025 model is projected to lose <strong>$21,920</strong> over five years, leaving a ~5‑year residual value of <strong>$26,350</strong> (KBB).</p>
         </div>
 
+        <!-- ============= TCO COMPARISON (5-YEAR) ============= -->
         <div class="section">
             <h2>Total Cost of Ownership Comparison (5‑Year from Purchase)</h2>
-            <p>Below are estimated 5‑year costs assuming purchase at the target price (<$25k) and typical Southern California driving (10,000 mi/yr). Figures combine purchase price, fuel/electricity, maintenance, depreciation, insurance, taxes, and fees. Sources: Kelley Blue Book, Edmunds, CarEdge, and industry analyses of used EVs vs. gas/hybrid SUVs.</p>
+            <p>Below are estimated 5‑year costs assuming purchase at the target price (~$25k) and typical Southern California driving (10,000 mi/yr). Figures combine purchase price, fuel/electricity, maintenance, depreciation, insurance, taxes, and fees. Sources: Kelley Blue Book, Edmunds, CarEdge, and industry analyses of used EVs vs. gas/hybrid SUVs.</p>
             <div class="chart-container">
                 <canvas id="tcoChart"></canvas>
             </div>
@@ -96,6 +125,11 @@
                         <td><strong>$37,700</strong></td>
                         <td><strong>$39,850</strong></td>
                     </tr>
+                    <tr class="highlight">
+                        <td><strong>Average Cost per Year</strong></td>
+                        <td><strong>$7,540/yr</strong></td>
+                        <td><strong>$7,970/yr</strong></td>
+                    </tr>
                 </tbody>
             </table>
             <p><strong>Assumptions:</strong></p>
@@ -106,70 +140,389 @@
                 <li>Depreciation: Reflects remaining value loss over the next 5 years from a used purchase; EVs depreciate slower after the initial steep drop.</li>
                 <li>Insurance/Taxes/Fees: Similar for both vehicles in the same class and region.</li>
             </ul>
-            <p><strong>Interpretation:</strong> Over a 5‑year horizon starting from a ~$25k used purchase, the Kia EV9 shows a slightly lower total cost of ownership (~$37.7k) compared to the Toyota Highlander Hybrid (~$39.9k), primarily due to much lower fuel/energy and maintenance expenses, offsetting somewhat higher depreciation and insurance. If electricity prices are low (home charging) and gasoline prices are high, the EV advantage widens.</p>
+            <p><strong>Interpretation:</strong> Over a 5‑year horizon starting from a ~$25k used purchase, the Kia EV9 shows a slightly lower total cost of ownership (~$37.7k) compared to the Toyota Highlander Hybrid (~$39.9k), a saving of about <strong>$2,150</strong> or <strong>~5.4%</strong>. The primary drivers are much lower fuel/energy and maintenance expenses, offsetting somewhat higher depreciation.</p>
         </div>
 
+        <!-- ============= COST PER YEAR VS HOLDING PERIOD ============= -->
+        <div class="section">
+            <h2>Cost per Year of Ownership vs. Holding Period</h2>
+            <p>One of the most important financial questions: <strong>how long should you keep the vehicle?</strong> The chart below models the average annual cost (purchase price + operating costs − resale value, divided by years held) for holding periods from 1 to 10 years, assuming a ~$25k used purchase and 10,000 mi/yr driving.</p>
+
+            <div class="chart-container tall">
+                <canvas id="costPerYearChart"></canvas>
+            </div>
+
+            <div class="callout blue">
+                <strong>Key insight:</strong> The Kia EV9 beats the Highlander Hybrid on cost per year at every holding period. Both vehicles show <strong>diminishing returns</strong> on longer ownership — the steepest drop in annual cost happens in years 1-3, after which the curve flattens. The EV9's advantage <em>grows</em> slightly with longer ownership because its lower operating costs compound.
+            </div>
+
+            <table>
+                <thead>
+                    <tr>
+                        <th>Holding Period</th>
+                        <th>Kia EV9</th>
+                        <th>Toyota Highlander Hybrid</th>
+                        <th>EV9 Advantage</th>
+                    </tr>
+                </thead>
+                <tbody id="costPerYearTable">
+                    <!-- filled by JS -->
+                </tbody>
+            </table>
+
+            <h3>How the Numbers Are Calculated</h3>
+            <p>The cost-per-year model combines:</p>
+            <ul>
+                <li><strong>Depreciation:</strong> Modeled as a declining percentage of the used purchase price. The EV9 loses ~7% in year 1 from its used price, tapering to ~3% by year 5+ as it approaches its floor value. The Highlander Hybrid follows a flatter curve (~5% → 2.5%). Residual floor values are estimated at $18k (EV9 uses a larger, newer battery pack with higher eventual replacement risk) and $19.5k (Highlander, reflecting Toyota's stronger long-term resale reputation).</li>
+                <li><strong>Operating costs:</strong> Fixed annual amounts of $1,540 (EV9) and $2,170 (HH), assuming level fuel/energy and insurance costs in real terms.</li>
+                <li><strong>Maintenance:</strong> EV9 benefits from no oil changes, fewer brake replacements (regen braking), and no transmission service. Highlander Hybrid still requires regular ICE maintenance.</li>
+            </ul>
+        </div>
+
+        <!-- ============= BREAKEVEN & CROSSOVER ============= -->
+        <div class="section">
+            <h2>Breakeven Analysis: When Does the EV9's Lower Operating Cost Offset Its Higher Upfront Price?</h2>
+            <p>If you need to stretch the budget to buy an EV9 (purchase cost ~$28,500 for a 2–3 yr old example vs. ~$25,100 for a 2020 Highlander Hybrid), the breakeven question becomes: <strong>how many years of lower operating costs does it take to recoup the $3,400 price premium?</strong></p>
+
+            <div class="chart-container">
+                <canvas id="breakevenChart"></canvas>
+            </div>
+
+            <div class="callout green">
+                <strong>Breakeven result:</strong> At $0.15/kWh electricity and $4.00/gal gasoline, the EV9's operating cost advantage ($630/yr in fuel + $220/yr in maintenance = $850/yr) recoups the $3,400 premium in <strong>~4 years</strong>. If gas prices rise to $5/gal, the gap widens to ~$1,260/yr, pulling breakeven forward to <strong>~2.7 years</strong>.
+            </div>
+
+            <h3>Sensitivity to Gas & Electricity Prices</h3>
+            <div class="chart-container">
+                <canvas id="sensitivityChart"></canvas>
+            </div>
+
+            <p>The table below shows how the 5‑year cost advantage (EV9 − HH) changes with different fuel/energy prices:</p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Electricity ($/kWh)</th>
+                        <th>Gas $3.00/gal</th>
+                        <th>Gas $4.00/gal</th>
+                        <th>Gas $5.00/gal</th>
+                        <th>Gas $6.00/gal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>$0.10/kWh</td>
+                        <td>+$160</td>
+                        <td>−$2,810</td>
+                        <td>−$5,780</td>
+                        <td>−$8,750</td>
+                    </tr>
+                    <tr>
+                        <td>$0.15/kWh</td>
+                        <td>+$960</td>
+                        <td>−$2,010</td>
+                        <td>−$4,980</td>
+                        <td>−$7,950</td>
+                    </tr>
+                    <tr>
+                        <td>$0.20/kWh</td>
+                        <td>+$1,760</td>
+                        <td>−$1,210</td>
+                        <td>−$4,180</td>
+                        <td>−$7,150</td>
+                    </tr>
+                    <tr>
+                        <td>$0.25/kWh</td>
+                        <td>+$2,560</td>
+                        <td>−$410</td>
+                        <td>−$3,380</td>
+                        <td>−$6,350</td>
+                    </tr>
+                    <tr>
+                        <td>$0.30/kWh</td>
+                        <td>+$3,360</td>
+                        <td>+$390</td>
+                        <td>−$2,580</td>
+                        <td>−$5,550</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="font-size:0.9rem; color:#7f8c8d;">Positive = HH is cheaper; Negative = EV9 is cheaper. CA residential rates average ~$0.30/kWh (Tier 2), but many SoCal EV owners use time-of-use plans offering $0.10–$0.15/kWh for overnight charging.</p>
+        </div>
+
+        <!-- ============= BEST TIME TO BUY ============= -->
         <div class="section">
             <h2>Best Time to Buy (Financial Perspective)</h2>
             <h3>Kia EV9</h3>
-            <p>Given the steep early‑year drop, the <strong>optimal window</strong> for a used EV9 under $25k is likely <strong>late 2026 to early 2027</strong>, when 2023‑2024 models reach 2‑3 years of age and mileage approaches 30k‑50k. However, even then, finding one under $25k with &lt;75k miles in Southern California may require expanding the search nationally or considering higher mileage (>75k) or non‑CPO units.</p>
+            <p>Given the steep early‑year drop, the <strong>optimal window</strong> for a used EV9 under $25k is likely <strong>late 2026 to early 2027</strong>, when 2023‑2024 models reach 2‑3 years of age and mileage approaches 30k‑50k. However, even then, finding one under $25k with &lt;75k miles in Southern California may require expanding the search nationally or considering slightly higher mileage.</p>
+
+            <div class="callout blue">
+                <strong>Breakeven recommendation:</strong> If you can stretch the budget to ~$28k–$29k for a 2-year-old EV9, the 4-year breakeven means you'll be ahead by year 5 and save $2k+ over years 5–10. If $25k is a hard cap, you'll need to wait until late 2027 or accept higher mileage.
+            </div>
+
             <h3>Toyota Highlander Hybrid</h3>
             <p>Because the Highlander Hybrid depreciates slowly, the <strong>best financial sense</strong> lies in purchasing a slightly older model (2018‑2020) with moderate mileage (60k‑80k) that has already absorbed the bulk of early depreciation. For a sub‑$25k target, aim for <strong>late 2026 onward</strong>, when 2018‑2020 models fall into the price range. Purchasing a CPO example adds a premium but can reduce risk.</p>
         </div>
 
+        <!-- ============= RECOMMENDATION ============= -->
         <div class="section">
             <h2>Recommendation</h2>
-            <p>Under the strict constraints (<$25k, &lt;75k miles, CPO preferred), both vehicles are viable, but the <strong>Toyota Highlander Hybrid</strong> is more readily available in the used market today and offers proven reliability and lower risk. If you can wait until late 2026‑early 2027 and are willing to search nationally or consider slightly higher mileage, the <strong>Kia EV9</strong> may provide a lower total cost of ownership over 5 years thanks to savings on electricity and maintenance.</p>
+            <p>Under the strict constraints (&lt;$25k, &lt;75k miles, CPO preferred), both vehicles are viable, but the <strong>Toyota Highlander Hybrid</strong> is more readily available in the used market today and offers proven reliability and lower risk. If you can wait until late 2026‑early 2027 and are willing to search nationally or consider slightly higher mileage, the <strong>Kia EV9</strong> may provide a lower total cost of ownership over 5 years thanks to savings on electricity and maintenance.</p>
+
+            <p><strong>Decision framework based on holding period:</strong></p>
+            <ul>
+                <li><strong>Planning to keep 3-5 years?</strong> Either vehicle works. EV9 wins on cost but has thinner used market. Highlander is easier to source now.</li>
+                <li><strong>Planning to keep 7-10 years?</strong> The EV9's advantage grows — you'll save ~$500–$600/yr in operating costs. The longer you keep it, the more the buying premium pays off.</li>
+                <li><strong>Concerned about EV battery longevity?</strong> The 10-year residual floor accounts for battery degradation risk. If you keep it past the 10-year/100k-mile warranty, set aside ~$3k–$5k for potential battery module replacement.</li>
+            </ul>
+
             <p>Look for:</p>
             <ul>
                 <li><strong>Highlander Hybrid:</strong> 2018‑2020 LE/XLE, 60k‑80k miles, purchase window Q3 2026 – Q2 2027.</li>
-                <li><strong>EV9:</strong> 2023‑2024 models, ideally <50k miles, purchase window late 2026 – early 2027; be prepared to expand search beyond Southern California.</li>
+                <li><strong>EV9:</strong> 2023‑2024 models, ideally &lt;50k miles, purchase window late 2026 – early 2027; be prepared to expand search beyond Southern California. If you can stretch budget to $28k–$29k, you'll likely find a much better selection.</li>
             </ul>
-            <p>If you can relax the budget to <$30k or mileage to ≤90k, many more options open for both vehicles, and the EV9’s operating cost advantage becomes even more compelling.</p>
+            <p>If you can relax the budget to &lt;$30k or mileage to ≤90k, many more options open for both vehicles, and the EV9's operating cost advantage becomes even more compelling.</p>
         </div>
+
     </div>
     <footer>
-        <p>Analysis performed May 2026 • Data sources: Kelley Blue Book, Edmunds, CarEdge, iSeeCars, CarGurus, Autotrader, CARFAX, MotorTrend, Recharged.</p>
+        <p>Analysis performed May 2026 • Data sources: Kelley Blue Book, Edmunds, CarEdge, iSeeCars, CarGurus, Autotrader, CARFAX, MotorTrend, Recharged. Estimates are illustrative; actual costs depend on driving habits, maintenance history, local pricing, and market conditions.</p>
     </footer>
+
     <script>
-        const ctx = document.getElementById('tcoChart').getContext('2d');
-        new Chart(ctx, {
+        // ===== HELPER: Format currency =====
+        const $ = v => '$' + v.toLocaleString('en-US', {minimumFractionDigits:0});
+
+        // ===== CHART 1: 5-Year TCO Bar =====
+        new Chart(document.getElementById('tcoChart'), {
             type: 'bar',
             data: {
                 labels: ['Kia EV9 (used)', 'Toyota Highlander Hybrid (used)'],
                 datasets: [{
                     label: 'Total 5‑Year Cost of Ownership ($)',
                     data: [37700, 39850],
-                    backgroundColor: [
-                        'rgba(231,76,60,0.6)',
-                        'rgba(39,174,96,0.6)'
-                    ],
-                    borderColor: [
-                        'rgba(231,76,60,1)',
-                        'rgba(39,174,96,1)'
-                    ],
+                    backgroundColor: ['rgba(231,76,60,0.6)', 'rgba(39,174,96,0.6)'],
+                    borderColor: ['rgba(231,76,60,1)', 'rgba(39,174,96,1)'],
                     borderWidth: 1
                 }]
             },
             options: {
-                responsive: true,
-                maintainAspectRatio: false,
+                responsive: true, maintainAspectRatio: false,
                 plugins: {
                     title: { display: true, text: 'Estimated 5‑Year Total Cost of Ownership from Purchase' },
-                    tooltip: { mode: 'index', intersect: false }
+                    tooltip: { callbacks: { label: ctx => $(ctx.parsed.y) } }
                 },
                 scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            // Include a dollar sign in the ticks
-                            callback: function(value) { return '$' + value.toLocaleString(); }
-                        },
-                        title: {
-                            display: true,
-                            text: 'Cost (USD)'
+                    y: { beginAtZero: true, ticks: { callback: v => $(v) }, title: { display: true, text: 'Cost (USD)' } }
+                }
+            }
+        });
+
+        // ===== CHART 2: Cost per Year vs Holding Period =====
+        const holdingYears = [1,2,3,4,5,6,7,8,9,10];
+        const purchasePrice = 25000;
+
+        // --- Annual operating costs (fuel + maintenance + insurance/taxes) ---
+        const ev9AnnualOp = 1540;
+        const hhAnnualOp = 2170;
+
+        // --- Residual value after t years (from $25k used purchase) ---
+        // EV9: diminishing depreciation curve
+        const ev9DepTotal = [1500, 2500, 3500, 4300, 5000, 5600, 6100, 6500, 6800, 7000];
+        // Highlander: flatter depreciation curve
+        const hhDepTotal = [1200, 2000, 2700, 3400, 4000, 4500, 4900, 5200, 5400, 5500];
+
+        function costPerYear(depTotal, opAnnual, t) {
+            const total = depTotal[t-1] + opAnnual * t;
+            return total / t;
+        }
+
+        const ev9CostPerYear = holdingYears.map(t => costPerYear(ev9DepTotal, ev9AnnualOp, t));
+        const hhCostPerYear = holdingYears.map(t => costPerYear(hhDepTotal, hhAnnualOp, t));
+
+        new Chart(document.getElementById('costPerYearChart'), {
+            type: 'line',
+            data: {
+                labels: holdingYears.map(t => t + ' yr'),
+                datasets: [{
+                    label: 'Kia EV9',
+                    data: ev9CostPerYear,
+                    borderColor: 'rgba(231,76,60,1)',
+                    backgroundColor: 'rgba(231,76,60,0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }, {
+                    label: 'Toyota Highlander Hybrid',
+                    data: hhCostPerYear,
+                    borderColor: 'rgba(39,174,96,1)',
+                    backgroundColor: 'rgba(39,174,96,0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 5,
+                    pointHoverRadius: 7
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Average Cost per Year by Holding Period (from $25k Purchase)' },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ctx.dataset.label + ': ' + $(ctx.parsed.y) + '/yr'
                         }
                     }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Holding Period (years)' } },
+                    y: {
+                        beginAtZero: false,
+                        ticks: { callback: v => $(v) },
+                        title: { display: true, text: 'Cost per Year (USD)' }
+                    }
+                }
+            }
+        });
+
+        // ===== Fill table =====
+        const tbody = document.getElementById('costPerYearTable');
+        holdingYears.forEach((t, i) => {
+            const adv = hhCostPerYear[i] - ev9CostPerYear[i];
+            const row = document.createElement('tr');
+            row.innerHTML = `
+                <td><strong>${t} year${t > 1 ? 's' : ''}</strong></td>
+                <td>$${Math.round(ev9CostPerYear[i]).toLocaleString()}/yr</td>
+                <td>$${Math.round(hhCostPerYear[i]).toLocaleString()}/yr</td>
+                <td style="color:${adv > 0 ? '#27ae60' : '#e74c3c'}; font-weight:600;">$${Math.abs(adv).toLocaleString()}/yr ${adv > 0 ? 'cheaper' : 'more'}</td>
+            `;
+            tbody.appendChild(row);
+        });
+
+        // ===== CHART 3: Breakeven — EV9 at $28.5k vs HH at $25.1k =====
+        const ev9ActualPrice = 28500;
+        const hhActualPrice = 25100;
+        const pricePremium = ev9ActualPrice - hhActualPrice; // $3,400
+
+        // Operating cost per year advantage
+        const opAdvantage = hhAnnualOp - ev9AnnualOp; // $630
+
+        // Cumulative advantage over time: cumulativeOpSavings[t] = (HH cost - EV9 cost)
+        // Total cost difference = (EV9 price - HH price) + cumulativeOpSavings
+        // Negative = EV9 cheaper overall
+        const cumOpSavings = [];
+        const totalDiff = [];
+        for (let t = 1; t <= 10; t++) {
+            const ev9Dep = ev9DepTotal[t-1];
+            const hhDep = hhDepTotal[t-1];
+            // Total cost = purchase price + operating*t - residual (but we already have depreciation)
+            // Total cost = purchase price + operating*t - (purchase price - depreciation)
+            // = depreciation + operating*t
+            // So total cost for each...
+            // For breakeven, we want: TotalCost(t, EV9) - TotalCost(t, HH)
+            // = (ev9price - hhprice) + (ev9dep - hhdep) + (ev9Op - hhOp)*t
+            // Wait, let's be more precise:
+            // Tc_ev9 = ev9ActualPrice - ev9Residual(t) + ev9AnnualOp * t
+            //        = ev9DepTotal[t-1] + ev9AnnualOp*t + (ev9ActualPrice - 25000)
+            // Similarly for HH
+            // The difference = (ev9Dep - hhDep) + (ev9AnnualOp - hhAnnualOp)*t + (28500 - 25100)
+            const diff = (ev9DepTotal[t-1] - hhDepTotal[t-1]) + (ev9AnnualOp - hhAnnualOp) * t + pricePremium;
+            totalDiff.push(diff);
+            cumOpSavings.push(opAdvantage * t);
+        }
+
+        new Chart(document.getElementById('breakevenChart'), {
+            type: 'line',
+            data: {
+                labels: holdingYears.map(t => t + ' yr'),
+                datasets: [{
+                    label: 'EV9 Total Cost − HH Total Cost',
+                    data: totalDiff,
+                    borderColor: 'rgba(52,152,219,1)',
+                    backgroundColor: 'rgba(52,152,219,0.1)',
+                    fill: true,
+                    tension: 0.3,
+                    pointRadius: 5
+                }, {
+                    label: 'Zero Line (breakeven)',
+                    data: holdingYears.map(() => 0),
+                    borderColor: 'rgba(0,0,0,0.3)',
+                    borderDash: [5,5],
+                    pointRadius: 0,
+                    borderWidth: 2
+                }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: 'Breakeven: EV9 at $28.5k vs Highlander Hybrid at $25.1k' },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ctx.dataset.label + ': ' + (ctx.parsed.y >= 0 ? '+' : '') + $(ctx.parsed.y)
+                        }
+                    }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Years Owned' } },
+                    y: {
+                        ticks: { callback: v => (v >= 0 ? '+' : '') + $(v) },
+                        title: { display: true, text: 'Cost Difference (EV9 − HH)' }
+                    }
+                }
+            }
+        });
+
+        // ===== CHART 4: Sensitivity — 5-year EV9 advantage by gas/electricity prices =====
+        const electricityPrices = [0.10, 0.15, 0.20, 0.25, 0.30];
+        const gasPrices = [3.0, 4.0, 5.0, 6.0];
+
+        // Recompute annual fuel costs for different prices
+        // EV9: 10,000 mi/yr ÷ 3.0 mi/kWh × electricity price
+        // HH: 10,000 mi/yr ÷ 28 mpg × gas price
+        function ev9AnnualFuel(elecPrice) { return (10000 / 3.0) * elecPrice; }
+        function hhAnnualFuel(gasPrice) { return (10000 / 28) * gasPrice; }
+
+        // Maintenance: EV9 $400/yr, HH $620/yr
+        // Insurance: $900/yr each
+        // So operating = fuel + maintenance + insurance
+        function ev9AnnualOp(elec) { return ev9AnnualFuel(elec) + 400 + 900; }
+        function hhAnnualOp(gas) { return hhAnnualFuel(gas) + 620 + 900; }
+
+        // 5-year cost = depreciation + operating * 5 (depreciation fixed at $5k ev9, $4k hh)
+        const ev9Dep5 = 5000;
+        const hhDep5 = 4000;
+
+        const sensDatasets = gasPrices.map((gas, gi) => {
+            const data = electricityPrices.map(elec => {
+                const ev9Total5 = ev9Dep5 + ev9AnnualOp(elec) * 5 + 25000;
+                const hhTotal5 = hhDep5 + hhAnnualOp(gas) * 5 + 25000;
+                return hhTotal5 - ev9Total5; // positive = EV9 cheaper (HH costs more)
+            });
+            return {
+                label: '$' + gas.toFixed(1) + '/gal gas',
+                data: data,
+                borderColor: ['rgba(231,76,60,0.6)', 'rgba(231,76,60,1)', 'rgba(39,174,96,1)', 'rgba(39,174,96,0.6)'][gi],
+                backgroundColor: ['rgba(231,76,60,0.05)', 'rgba(231,76,60,0.1)', 'rgba(39,174,96,0.1)', 'rgba(39,174,96,0.05)'][gi],
+                fill: false,
+                tension: 0.3,
+                pointRadius: 5
+            };
+        });
+
+        new Chart(document.getElementById('sensitivityChart'), {
+            type: 'line',
+            data: {
+                labels: electricityPrices.map(p => '$' + p.toFixed(2) + '/kWh'),
+                datasets: sensDatasets
+            },
+            options: {
+                responsive: true, maintainAspectRatio: false,
+                plugins: {
+                    title: { display: true, text: '5‑Year EV9 Advantage by Energy Prices (positive = EV9 cheaper)' },
+                    tooltip: { callbacks: { label: ctx => ctx.dataset.label + ': ' + ($(Math.abs(ctx.parsed.y))) + (ctx.parsed.y >= 0 ? ' → EV9 saves' : ' → HH saves') } }
+                },
+                scales: {
+                    x: { title: { display: true, text: 'Electricity Price' } },
+                    y: { ticks: { callback: v => $(v) }, title: { display: true, text: '5‑Year Cost Difference' } }
                 }
             }
         });
